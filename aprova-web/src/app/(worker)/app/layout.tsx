@@ -11,6 +11,11 @@ const nunito = Nunito({
 export const metadata: Metadata = {
   title: 'APROVA — Marketplace',
   description: 'Benefícios consignados para trabalhadores CLT',
+  icons: {
+    icon: '/favicon.png',
+    shortcut: '/favicon.png',
+    apple: '/favicon.png',
+  },
 };
 
 export default function WorkerLayout({ children }: { children: React.ReactNode }) {
