@@ -177,7 +177,7 @@ function EmployeeRow({ emp, onDetail, onEdit, onToggleBlock }: {
         <div className="flex items-center gap-2">
           {isCarencia && (
             <AlertTriangle size={13} className="flex-shrink-0 text-rose-400" strokeWidth={2.5}
-              title="Em período de experiência — margem bloqueada" />
+              aria-label="Em período de experiência — margem bloqueada" />
           )}
           <div>
             <p className="text-white font-bold text-sm">{emp.name}</p>
