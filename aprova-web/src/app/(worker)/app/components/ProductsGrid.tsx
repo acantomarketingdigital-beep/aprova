@@ -21,27 +21,34 @@ export default function ProductsGrid({
     return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   }
 
-  const filtered = products.filter((p) => {
-    const affordable = p.valorTotal <= userLimit;
-    const matchesSearch =
-      !searchQuery ||
-      p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.partner.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.category.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory =
-      !activeCategory || p.category.toLowerCase().replace(/\s+/g, '-') === activeCategory;
-    return affordable && matchesSearch && matchesCategory;
-  });
+  const filtered = products
+    .filter((p) => {
+      const affordable = p.valorTotal <= userLimit;
+      const matchesSearch =
+        !searchQuery ||
+        p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        p.partner.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        p.category.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesCategory =
+        !activeCategory || p.category.toLowerCase().replace(/\s+/g, '-') === activeCategory;
+      return affordable && matchesSearch && matchesCategory;
+    })
+    // Parceiros pagantes (Plano Destaque) aparecem primeiro — regra de negócio APROVA
+    .sort((a, b) => {
+      if (a.isFeatured && !b.isFeatured) return -1;
+      if (!a.isFeatured && b.isFeatured) return 1;
+      return 0;
+    });
 
   return (
     <section className="px-4 pb-32 sm:px-6">
       <div className="mb-5 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-[10px] font-black uppercase tracking-[0.25em] text-[#FFD700]">
-            Com sua margem de {formatBRL(userLimit)}
+            Selecionadas para sua margem de {formatBRL(userLimit)}
           </p>
           <h2 className="mt-0.5 text-xl font-black tracking-tight text-white sm:text-2xl">
-            Oportunidades para você
+            Ofertas que cabem na sua margem
           </h2>
         </div>
         <p className="text-xs font-semibold text-[#444]">
