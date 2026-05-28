@@ -11,7 +11,11 @@ import { User } from '../users/users.entity';
 import { Company } from '../companies/companies.entity';
 
 export enum EmployeeStatus {
-  ACTIVE = 'active',
+  // ── Produção ──────────────────────────────────────────────────────────────
+  ACTIVE = 'active',           // Cenário C: > 12 meses — margem 30%, sem teto de dívida
+  ATIVO_COM_TETO = 'ativo_com_teto', // Cenário B: 3–12 meses — margem 30%, teto = 1x salário
+  CARENCIA = 'carencia',       // Cenário A: < 90 dias — margem R$0 (demissão sem cobertura)
+  // ── Administrativos ───────────────────────────────────────────────────────
   DISMISSED = 'dismissed',
   ON_LEAVE = 'on_leave',
 }
@@ -47,8 +51,26 @@ export class Employee {
     scale: 2,
     default: 0,
     name: 'available_margin',
+    comment: 'Calculado pelo motor de risco: 30% do salário líquido (0 se CARENCIA).',
   })
   available_margin: number;
+
+  /**
+   * Teto máximo de dívida total que este colaborador pode assumir no sistema.
+   *
+   * Cenário A (CARENCIA)    → 0
+   * Cenário B (ATIVO_COM_TETO) → 1× net_salary
+   * Cenário C (ACTIVE)      → NULL (sem teto — pode parcelar livremente)
+   */
+  @Column({
+    type: 'decimal',
+    precision: 12,
+    scale: 2,
+    nullable: true,
+    name: 'max_debt_limit',
+    comment: 'Teto de dívida total. NULL = sem teto (Cenário C). 0 = bloqueado (Cenário A).',
+  })
+  max_debt_limit: number | null;
 
   @Column({ type: 'date', nullable: true, name: 'admission_date' })
   admission_date: string | null;
