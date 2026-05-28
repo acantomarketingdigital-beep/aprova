@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Tag, Clock, CheckCheck, Copy } from 'lucide-react';
+import { Tag, Clock, CheckCheck, Copy, ArrowRight } from 'lucide-react';
 
 export interface Coupon {
   id: string;
@@ -12,13 +12,17 @@ export interface Coupon {
   description: string;
   code: string;
   validUntil: string;
+  // TODO: vincular ao endpoint GET /api/v1/products/:id quando backend estiver pronto
+  relatedProductId?: string;
 }
 
 interface CouponBlockProps {
   coupons: Coupon[];
+  // TODO: receber a lista de produtos para abrir o modal de detalhe correto
+  onViewOffer?: (productId: string) => void;
 }
 
-export default function CouponBlock({ coupons }: CouponBlockProps) {
+export default function CouponBlock({ coupons, onViewOffer }: CouponBlockProps) {
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   if (coupons.length === 0) return null;
@@ -47,7 +51,7 @@ export default function CouponBlock({ coupons }: CouponBlockProps) {
         {coupons.map((coupon) => (
           <div
             key={coupon.id}
-            className="flex w-60 flex-shrink-0 flex-col gap-3 rounded-2xl border border-[#FFD700]/20 bg-[#1A1A00] p-4"
+            className="flex w-64 flex-shrink-0 flex-col gap-3 rounded-2xl border border-[#FFD700]/20 bg-[#1A1A00] p-4"
           >
             {/* Label */}
             <span className="inline-flex w-fit items-center gap-1 rounded-full border border-[#FFD700]/30 bg-[#FFD700]/10 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-widest text-[#FFD700]">
@@ -63,7 +67,7 @@ export default function CouponBlock({ coupons }: CouponBlockProps) {
               </p>
             </div>
 
-            {/* Código */}
+            {/* Código copiável */}
             <div className="flex items-center gap-2 rounded-xl border border-dashed border-[#FFD700]/30 bg-[#FFD700]/[0.06] px-3 py-2">
               <span className="flex-1 font-mono text-sm font-black tracking-wider text-[#FFD700]">
                 {coupon.code}
@@ -80,10 +84,21 @@ export default function CouponBlock({ coupons }: CouponBlockProps) {
               </button>
             </div>
 
-            {/* Validade */}
-            <div className="flex items-center gap-1 text-[10px] font-semibold text-[#555]">
-              <Clock size={10} />
-              Válido: {coupon.validUntil}
+            {/* Rodapé: validade + CTA */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1 text-[10px] font-semibold text-[#555]">
+                <Clock size={10} />
+                Válido: {coupon.validUntil}
+              </div>
+              {/* CTA "Usar agora" — abre a oferta relacionada */}
+              {coupon.relatedProductId && onViewOffer && (
+                <button
+                  onClick={() => onViewOffer(coupon.relatedProductId!)}
+                  className="flex items-center gap-1 rounded-xl border border-[#FFD700]/25 bg-[#FFD700]/10 px-2.5 py-1 text-[10px] font-black text-[#FFD700] transition-colors hover:bg-[#FFD700]/20"
+                >
+                  Usar agora <ArrowRight size={9} strokeWidth={3} />
+                </button>
+              )}
             </div>
           </div>
         ))}

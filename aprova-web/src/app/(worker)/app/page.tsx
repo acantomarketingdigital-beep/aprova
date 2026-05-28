@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { ArrowDown, X } from 'lucide-react';
 import MarketplaceHeader from './components/MarketplaceHeader';
 import SearchBar from './components/SearchBar';
 import CategoriesScroll from './components/CategoriesScroll';
@@ -38,7 +39,7 @@ const MOCK_HERO_BANNERS: HeroBannerItem[] = [
   },
   {
     id: 'reforma-casa',
-    eyebrow: 'Parceiro Destaque da Semana',
+    eyebrow: 'Parceiro em Destaque',
     title: 'Reforma sem apertar o caixa do mês',
     subtitle: 'Materiais e ferramentas em parcelas previsíveis na sua folha.',
     href: '/app/oferta/material-construcao',
@@ -68,14 +69,14 @@ const MOCK_HERO_BANNERS: HeroBannerItem[] = [
 // plan: 'premium' = paga R$197/mês (Plano Destaque) → aparece no carrossel e espaços premium
 // plan: 'free'    = só comissão de 12% → aparece apenas organicamente na listagem
 const MOCK_PARTNERS: Partner[] = [
-  { id: '1', name: 'Clínica Viva Mais',  initial: 'V', color: 'bg-emerald-700', featured: true,  plan: 'premium' },
-  { id: '2', name: 'Sorriso Prime',       initial: 'S', color: 'bg-sky-700',     featured: true,  plan: 'premium' },
-  { id: '3', name: 'Obra Forte',          initial: 'O', color: 'bg-amber-700',   featured: false, plan: 'free'    },
-  { id: '4', name: 'Next Skill Academy',  initial: 'N', color: 'bg-violet-700',  featured: false, plan: 'free'    },
-  { id: '5', name: 'Mobility Store',      initial: 'M', color: 'bg-lime-700',    featured: false, plan: 'free'    },
-  { id: '6', name: 'TurismoBrasil',       initial: 'T', color: 'bg-rose-700',    featured: false, plan: 'free'    },
-  { id: '7', name: 'AutoCenter Plus',     initial: 'A', color: 'bg-orange-700',  featured: false, plan: 'free'    },
-  { id: '8', name: 'MedFácil',            initial: 'M', color: 'bg-teal-700',    featured: true,  plan: 'premium' },
+  { id: '1', name: 'Clínica Viva Mais',  initial: 'V', color: 'bg-emerald-700', featured: true,  plan: 'premium', category: 'Estética & Saúde', status: 'Agenda aberta'      },
+  { id: '2', name: 'Sorriso Prime',       initial: 'S', color: 'bg-sky-700',     featured: true,  plan: 'premium', category: 'Odontologia',       status: 'Aceita token APROVA' },
+  { id: '3', name: 'Obra Forte',          initial: 'O', color: 'bg-amber-700',   featured: false, plan: 'free'                                                                  },
+  { id: '4', name: 'Next Skill Academy',  initial: 'N', color: 'bg-violet-700',  featured: false, plan: 'free'                                                                  },
+  { id: '5', name: 'Mobility Store',      initial: 'M', color: 'bg-lime-700',    featured: false, plan: 'free'                                                                  },
+  { id: '6', name: 'TurismoBrasil',       initial: 'T', color: 'bg-rose-700',    featured: false, plan: 'free'                                                                  },
+  { id: '7', name: 'AutoCenter Plus',     initial: 'A', color: 'bg-orange-700',  featured: false, plan: 'free'                                                                  },
+  { id: '8', name: 'MedFácil',            initial: 'M', color: 'bg-teal-700',    featured: true,  plan: 'premium', category: 'Saúde',             status: 'Ofertas ativas'      },
 ];
 
 const MOCK_MINI_BANNER: MiniBannerData = {
@@ -86,7 +87,7 @@ const MOCK_MINI_BANNER: MiniBannerData = {
 };
 
 // Cupons exclusivos de parceiros pagantes (Plano Destaque)
-// TODO: GET /api/v1/coupons/active?worker=:id — filtrar por margem do trabalhador
+// TODO: GET /api/v1/coupons/active?worker=:id — filtrar por margem e parceiros premium
 const MOCK_COUPONS: Coupon[] = [
   {
     id: 'c1',
@@ -96,6 +97,7 @@ const MOCK_COUPONS: Coupon[] = [
     description: 'Avaliação gratuita com qualquer procedimento estético',
     code: 'VIVA10',
     validUntil: 'Hoje',
+    relatedProductId: 'combo-ozonio',
   },
   {
     id: 'c2',
@@ -105,6 +107,7 @@ const MOCK_COUPONS: Coupon[] = [
     description: 'Ganhe uma sessão bônus na compra do pacote odonto',
     code: 'SORRI20',
     validUntil: 'Amanhã',
+    relatedProductId: 'pacote-odonto',
   },
   {
     id: 'c3',
@@ -114,11 +117,11 @@ const MOCK_COUPONS: Coupon[] = [
     description: 'Consulta + retorno em 30 dias sem custo adicional',
     code: 'MED30',
     validUntil: 'Esta semana',
+    relatedProductId: 'pacote-saude',
   },
 ];
 
-// isFeatured = parceiro no Plano Destaque (R$197/mês) → aparece primeiro + badge ⭐
-// isSponsored = aparece em banner principal (futuro controle via API)
+// isFeatured = parceiro no Plano Destaque (R$197/mês) → badge ⭐ + posição prioritária
 const MOCK_PRODUCTS: Product[] = [
   {
     id: 'combo-ozonio',
@@ -150,7 +153,7 @@ const MOCK_PRODUCTS: Product[] = [
     bgGradient: 'bg-gradient-to-br from-sky-950/80 to-[#161616]',
     accent: 'bg-sky-400/15 text-sky-200 border-sky-400/30',
     badge: 'Agenda aberta',
-    details: ['Rede credenciada', 'Sem cartão de crédito', 'Token de 6 dígitos'],
+    details: ['Rede credenciada', 'Token de 6 dígitos'],
     isFeatured: true,
   },
   {
@@ -166,7 +169,7 @@ const MOCK_PRODUCTS: Product[] = [
     bgGradient: 'bg-gradient-to-br from-teal-950/80 to-[#161616]',
     accent: 'bg-teal-400/15 text-teal-200 border-teal-400/30',
     badge: 'Novidade',
-    details: ['2 dependentes inclusos', 'Resultado em 48h', 'Token no balcão'],
+    details: ['2 dependentes inclusos', 'Resultado em 48h'],
     isFeatured: true,
   },
   {
@@ -182,7 +185,7 @@ const MOCK_PRODUCTS: Product[] = [
     bgGradient: 'bg-gradient-to-br from-amber-950/80 to-[#161616]',
     accent: 'bg-amber-400/15 text-amber-200 border-amber-400/30',
     badge: 'Flash sale',
-    details: ['Retirada na loja', 'Parcelas fixas', 'Válido para itens selecionados'],
+    details: ['Retirada na loja', 'Parcelas fixas'],
     isFeatured: false,
   },
   {
@@ -198,7 +201,7 @@ const MOCK_PRODUCTS: Product[] = [
     bgGradient: 'bg-gradient-to-br from-violet-950/80 to-[#161616]',
     accent: 'bg-violet-400/15 text-violet-200 border-violet-400/30',
     badge: 'Carreira',
-    details: ['Certificado incluso', 'Acesso por 12 meses', 'Início imediato'],
+    details: ['Certificado incluso', 'Início imediato'],
     isFeatured: false,
   },
   {
@@ -214,14 +217,54 @@ const MOCK_PRODUCTS: Product[] = [
     bgGradient: 'bg-gradient-to-br from-lime-950/80 to-[#161616]',
     accent: 'bg-lime-400/15 text-lime-200 border-lime-400/30',
     badge: 'Entrega rápida',
-    details: ['Garantia do parceiro', 'Retirada agendada', 'Parcelas na folha'],
+    details: ['Garantia do parceiro', 'Retirada agendada'],
     isFeatured: false,
   },
 ];
 
 // ─── Tipos de modal ────────────────────────────────────────────────────────────
+type Modal = 'detail' | 'token' | 'no-offer' | null;
 
-type Modal = 'detail' | 'token' | null;
+// ─── Modal "Escolha uma oferta" (sem oferta selecionada) ──────────────────────
+function NoOfferModal({ onClose }: { onClose: () => void }) {
+  return (
+    <>
+      <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm" onClick={onClose} />
+      <div className="fixed inset-x-4 bottom-24 z-50 mx-auto max-w-sm rounded-3xl border border-white/[0.08] bg-[#161616] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.8)]">
+        <button
+          onClick={onClose}
+          className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-xl border border-white/[0.08] text-[#555] hover:text-white"
+        >
+          <X size={14} />
+        </button>
+
+        <div className="mb-5 text-center">
+          <span className="text-5xl">🛍️</span>
+          <h3 className="mt-3 text-lg font-black leading-tight text-white">
+            Escolha uma oferta ou parceiro
+          </h3>
+          <p className="mt-2 text-sm leading-relaxed text-[#666]">
+            Para gerar seu token, selecione uma oferta que caiba na sua margem ou escolha um parceiro credenciado.
+          </p>
+        </div>
+
+        <button
+          onClick={onClose}
+          className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#FFD700] py-3.5 text-sm font-black text-[#0D0D0D] shadow-[0_0_20px_rgba(255,215,0,0.3)] transition-all hover:brightness-110"
+        >
+          <ArrowDown size={16} strokeWidth={2.5} />
+          Ver ofertas que cabem na minha margem
+        </button>
+        <button
+          onClick={onClose}
+          className="mt-2 w-full py-2.5 text-sm font-bold text-[#555] transition-colors hover:text-white"
+        >
+          Fechar
+        </button>
+      </div>
+    </>
+  );
+}
 
 // ─── Page ──────────────────────────────────────────────────────────────────────
 
@@ -233,30 +276,38 @@ export default function WorkerMarketplacePage() {
   // packageItems = itens adicionados via upsell (além da oferta principal)
   const [packageItems, setPackageItems] = useState<Product[]>([]);
 
-  // Abre o detalhe da oferta (substitui o SimuladorModal anterior)
+  // Abre o detalhe de uma oferta pelo objeto
   const handleOpenDetail = (product: Product) => {
     setSelectedProduct(product);
     setPackageItems([]);
     setActiveModal('detail');
   };
 
-  // Abre o TokenModal a partir do detalhe ou da barra inferior
-  const handleOpenToken = () => {
+  // Abre o detalhe de uma oferta pelo id (usado pelo CTA "Usar agora" dos cupons)
+  // TODO: quando vier da API, buscar o produto por id no endpoint /api/v1/products/:id
+  const handleOpenDetailById = (productId: string) => {
+    const found = MOCK_PRODUCTS.find((p) => p.id === productId);
+    if (found) handleOpenDetail(found);
+  };
+
+  // Clique no TokenBar: se não há oferta selecionada, mostra modal explicativo
+  const handleTokenBarClick = () => {
+    if (activeModal === null) {
+      setActiveModal('no-offer');
+    }
+  };
+
+  // Fecha modal de detalhe e abre token
+  // TODO: quando backend suportar múltiplos itens, enviar [selectedProduct, ...packageItems]
+  //       para POST /api/v1/qr-codes como payload { items: [{productId, installments}] }
+  const handleGerarTokenFromDetail = () => {
     setActiveModal('token');
   };
 
-  // Fecha qualquer modal e limpa o pacote
   const handleClose = () => {
     setActiveModal(null);
     setSelectedProduct(null);
     setPackageItems([]);
-  };
-
-  // Fecha só o detalhe e abre o token (chamado pelo CTA do OfferDetailModal)
-  const handleGerarTokenFromDetail = () => {
-    // TODO: quando backend suportar múltiplos itens no token,
-    // enviar [selectedProduct, ...packageItems] como payload de /api/v1/qr-codes
-    setActiveModal('token');
   };
 
   const handleAddToPackage = (product: Product) => {
@@ -278,25 +329,19 @@ export default function WorkerMarketplacePage() {
 
       <div className="mx-auto w-full max-w-[1400px]">
         <div className="pt-4">
-          {/* Busca */}
           <SearchBar value={searchQuery} onChange={setSearchQuery} />
-
-          {/* Categorias */}
           <CategoriesScroll active={activeCategory} onSelect={setActiveCategory} />
-
-          {/* Banner hero — patrocinado por parceiros pagantes */}
           <HeroBanner banners={MOCK_HERO_BANNERS} />
 
-          {/* Parceiros em destaque — apenas plan: 'premium' */}
+          {/* Parceiros em destaque — apenas plan:'premium' */}
           <PartnersScroll partners={MOCK_PARTNERS} />
 
-          {/* Mini banner relâmpago */}
           <MiniBanner data={MOCK_MINI_BANNER} />
 
-          {/* Cupons — exclusivo parceiros pagantes */}
-          <CouponBlock coupons={MOCK_COUPONS} />
+          {/* Cupons — exclusivo parceiros pagantes; "Usar agora" abre o modal da oferta */}
+          <CouponBlock coupons={MOCK_COUPONS} onViewOffer={handleOpenDetailById} />
 
-          {/* Grade de ofertas */}
+          {/* Grade de ofertas — parceiros premium ordenados primeiro */}
           <ProductsGrid
             products={MOCK_PRODUCTS}
             userLimit={MOCK_USER.availableLimit}
@@ -307,8 +352,13 @@ export default function WorkerMarketplacePage() {
         </div>
       </div>
 
-      {/* Barra inferior fixa */}
-      <TokenBar onClick={handleOpenToken} />
+      {/* Barra inferior fixa — comportamento contextual */}
+      <TokenBar onClick={handleTokenBarClick} />
+
+      {/* Modal: usuário clicou no token sem ter oferta selecionada */}
+      {activeModal === 'no-offer' && (
+        <NoOfferModal onClose={handleClose} />
+      )}
 
       {/* Modal de detalhe da oferta + upsell + pacote */}
       {activeModal === 'detail' && selectedProduct && (
@@ -324,7 +374,7 @@ export default function WorkerMarketplacePage() {
         />
       )}
 
-      {/* Modal de token (gerar QR + código 6 dígitos) */}
+      {/* Modal de token (QR + código de 6 dígitos + countdown 15 min) */}
       {activeModal === 'token' && (
         <TokenModal onClose={handleClose} />
       )}
