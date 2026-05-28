@@ -20,6 +20,8 @@ export interface Product {
   // Plano Destaque (R$197/mês) — controla espaços premium de anúncio
   isFeatured?: boolean;
   isSponsored?: boolean;
+  // WhatsApp do parceiro para agendamento remoto (E.164 digits only, e.g. "5511912345678")
+  partnerWhatsApp?: string;
 }
 
 const BADGE_STYLES: Record<string, string> = {

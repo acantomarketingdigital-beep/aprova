@@ -127,6 +127,7 @@ const MOCK_PRODUCTS: Product[] = [
     id: 'combo-ozonio',
     title: 'Combo Ozônio + Recovery',
     partner: 'Clínica Viva Mais',
+    partnerWhatsApp: '5511991230001',
     partnerId: '1',
     category: 'estetica',
     description: 'Sessão combinada para bem-estar, recuperação e cuidado estético com agendamento prioritário.',
@@ -144,6 +145,7 @@ const MOCK_PRODUCTS: Product[] = [
     id: 'pacote-odonto',
     title: 'Pacote Odonto Preventivo',
     partner: 'Sorriso Prime',
+    partnerWhatsApp: '5511991230003',
     partnerId: '2',
     category: 'odonto',
     description: 'Limpeza, avaliação e radiografia com pagamento por desconto em folha.',
@@ -160,6 +162,7 @@ const MOCK_PRODUCTS: Product[] = [
     id: 'pacote-saude',
     title: 'Check-up Completo Família',
     partner: 'MedFácil',
+    partnerWhatsApp: '5511991230008',
     partnerId: '8',
     category: 'saude',
     description: 'Consulta, hemograma e ultrassonografia para você e mais um dependente.',
@@ -176,6 +179,7 @@ const MOCK_PRODUCTS: Product[] = [
     id: 'material-construcao',
     title: 'Material de Construção',
     partner: 'Obra Forte',
+    partnerWhatsApp: '5511991230002',
     partnerId: '3',
     category: 'construcao',
     description: 'Crédito para compra de cimento, pisos, ferramentas e itens essenciais de reforma.',
@@ -192,6 +196,7 @@ const MOCK_PRODUCTS: Product[] = [
     id: 'curso-tecnologia',
     title: 'Curso de Tecnologia',
     partner: 'Next Skill Academy',
+    partnerWhatsApp: '5511991230004',
     partnerId: '4',
     category: 'educacao',
     description: 'Trilha profissionalizante com aulas online, mentoria e certificado final.',
@@ -208,6 +213,7 @@ const MOCK_PRODUCTS: Product[] = [
     id: 'bike-eletrica',
     title: 'Bike Elétrica Urbana',
     partner: 'Mobility Store',
+    partnerWhatsApp: '5511991230005',
     partnerId: '5',
     category: 'veiculos',
     description: 'Mobilidade diária com manutenção inicial e retirada no parceiro autorizado.',
@@ -374,9 +380,14 @@ export default function WorkerMarketplacePage() {
         />
       )}
 
-      {/* Modal de token (QR + código de 6 dígitos + countdown 15 min) */}
+      {/* Modal de token (QR + código de 6 dígitos + countdown 15 min + WhatsApp CTA) */}
       {activeModal === 'token' && (
-        <TokenModal onClose={handleClose} />
+        <TokenModal
+          onClose={handleClose}
+          procedureName={selectedProduct?.title}
+          partnerName={selectedProduct?.partner}
+          partnerWhatsApp={selectedProduct?.partnerWhatsApp}
+        />
       )}
     </main>
   );
