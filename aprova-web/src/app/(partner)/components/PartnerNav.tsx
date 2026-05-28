@@ -55,7 +55,7 @@ export default function PartnerNav() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
         {/* Brand */}
         <div className="flex items-center gap-3 flex-shrink-0">
-          <Image src="/logo.png" alt="APROVA" width={100} height={32} className="h-8 w-auto object-contain" priority />
+          <Image src="/logo.png" alt="APROVA" width={150} height={48} className="h-12 w-auto object-contain" priority />
           <span className="hidden sm:block text-[#2A2A2A] text-lg">|</span>
           <div className="hidden sm:flex items-center gap-2">
             <span className="text-white text-sm font-black">{MOCK_PARTNER.name}</span>

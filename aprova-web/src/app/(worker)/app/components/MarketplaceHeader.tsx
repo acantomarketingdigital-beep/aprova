@@ -17,7 +17,7 @@ export default function MarketplaceHeader({ workerName, availableLimit }: Market
     <header className="sticky top-0 z-50 border-b border-white/[0.06] bg-[#0D0D0D]/95 px-4 py-3 backdrop-blur-md sm:px-6">
       {/* Logo bar */}
       <div className="flex items-center justify-between mb-3">
-        <Image src="/logo.png" alt="APROVA" width={90} height={28} className="h-7 w-auto object-contain" priority />
+        <Image src="/logo.png" alt="APROVA" width={135} height={42} className="h-[42px] w-auto object-contain" priority />
       </div>
       <div className="flex items-center justify-between">
         {/* Left: greeting */}

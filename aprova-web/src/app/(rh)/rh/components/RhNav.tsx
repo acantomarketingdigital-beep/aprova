@@ -29,7 +29,7 @@ export default function RhNav({
       <div className="mx-auto max-w-7xl px-4 sm:px-8 h-16 flex items-center justify-between gap-4">
         {/* Brand */}
         <div className="flex items-center gap-3 flex-shrink-0">
-          <Image src="/logo.png" alt="APROVA" width={100} height={32} className="h-8 w-auto object-contain" priority />
+          <Image src="/logo.png" alt="APROVA" width={150} height={48} className="h-12 w-auto object-contain" priority />
           <span className="text-[#2A2A2A] hidden sm:block text-lg">|</span>
           <span className="text-[#555] text-sm font-semibold hidden sm:block">Portal do RH</span>
         </div>
