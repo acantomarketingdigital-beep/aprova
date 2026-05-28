@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { QrCode, CheckCircle2, XCircle, Clock, AlertCircle, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
-import PartnerNav from '../../components/PartnerNav';
+import PartnerShell from '../../components/PartnerShell';
 
 // Token validation status types
 type TokenStatus = 'idle' | 'loading' | 'valid' | 'expired' | 'used' | 'insufficient' | 'blocked' | 'invalid';
@@ -118,10 +118,7 @@ export default function TokenPage() {
   const cfg = status !== 'idle' && status !== 'loading' ? STATUS_CONFIG[status as keyof typeof STATUS_CONFIG] : null;
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white">
-      <PartnerNav />
-
-      <main className="mx-auto max-w-2xl px-4 sm:px-6 py-10 flex flex-col gap-8">
+    <PartnerShell maxW="max-w-2xl" py="py-10">
 
         {/* Header */}
         <div className="text-center">
@@ -254,7 +251,6 @@ export default function TokenPage() {
           </Link>
         </div>
 
-      </main>
-    </div>
+    </PartnerShell>
   );
 }

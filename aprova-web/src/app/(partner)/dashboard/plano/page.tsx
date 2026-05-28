@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Check, X, Zap, Lock, CheckCircle2 } from 'lucide-react';
-import PartnerNav from '../../components/PartnerNav';
+import PartnerShell from '../../components/PartnerShell';
 import { MOCK_PARTNER, MOCK_PLAN, formatBRL } from '../../components/partner-data';
 
 const FREE_FEATURES = [
@@ -112,9 +112,7 @@ export default function PlanoPage() {
 
   if (activated) {
     return (
-      <div className="min-h-screen bg-[#0A0A0A] text-white">
-        <PartnerNav />
-        <main className="mx-auto max-w-3xl px-4 sm:px-6 py-10 flex flex-col gap-8">
+      <PartnerShell maxW="max-w-4xl" py="py-10">
           <div className="rounded-3xl border border-[#FFD700]/25 bg-[#1A1A00] p-8">
             <div className="flex items-center gap-3 mb-4">
               <CheckCircle2 size={24} className="text-[#FFD700]" strokeWidth={2} />
@@ -142,16 +140,13 @@ export default function PlanoPage() {
               Cancelar renovação →
             </button>
           </div>
-        </main>
-      </div>
+      </PartnerShell>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white">
-      <PartnerNav />
-
-      <main className="mx-auto max-w-5xl px-4 sm:px-6 py-10 flex flex-col gap-10">
+    <>
+    <PartnerShell maxW="max-w-5xl" py="py-10" gap="gap-10">
 
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto">
@@ -255,18 +250,16 @@ export default function PlanoPage() {
           </p>
         </div>
 
-      </main>
-
-      {showModal && (
-        <ConfirmModal onClose={() => setShowModal(false)} onConfirm={handleConfirm} />
-      )}
-
-      {toast && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 rounded-2xl border border-emerald-500/30 bg-emerald-950/90 px-5 py-3.5 shadow-[0_8px_32px_rgba(0,0,0,0.6)]">
-          <CheckCircle2 size={16} className="text-emerald-400" strokeWidth={2.5} />
-          <span className="text-emerald-400 text-sm font-bold">Campanhas Inteligentes ativadas com sucesso!</span>
-        </div>
-      )}
-    </div>
+    </PartnerShell>
+    {showModal && (
+      <ConfirmModal onClose={() => setShowModal(false)} onConfirm={handleConfirm} />
+    )}
+    {toast && (
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 rounded-2xl border border-emerald-500/30 bg-emerald-950/90 px-5 py-3.5 shadow-[0_8px_32px_rgba(0,0,0,0.6)]">
+        <CheckCircle2 size={16} className="text-emerald-400" strokeWidth={2.5} />
+        <span className="text-emerald-400 text-sm font-bold">Campanhas Inteligentes ativadas com sucesso!</span>
+      </div>
+    )}
+    </>
   );
 }

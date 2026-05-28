@@ -3,7 +3,7 @@
 import { useState, useRef } from 'react';
 import { Plus, Zap, X, Upload, AlertTriangle, ArrowRight, BarChart2 } from 'lucide-react';
 import Link from 'next/link';
-import PartnerNav from '../../components/PartnerNav';
+import PartnerShell from '../../components/PartnerShell';
 import {
   MOCK_CAMPAIGNS, MOCK_PLAN, MOCK_PARTNER, ART_SPECS,
   CAMPAIGN_TYPE_LABELS, type Campaign, type CampaignType, type CampaignStatus,
@@ -256,10 +256,8 @@ export default function CampanhasPage() {
   const hasPlan = MOCK_PLAN.isActive || MOCK_PARTNER.plan === 'premium';
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white">
-      <PartnerNav />
-
-      <main className="mx-auto max-w-6xl px-4 sm:px-6 py-8 flex flex-col gap-8">
+    <>
+    <PartnerShell>
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
           <div>
@@ -387,9 +385,8 @@ export default function CampanhasPage() {
             )}
           </div>
         )}
-      </main>
-
-      {showForm && <CampaignForm onClose={() => setShowForm(false)} />}
-    </div>
+    </PartnerShell>
+    {showForm && <CampaignForm onClose={() => setShowForm(false)} />}
+    </>
   );
 }

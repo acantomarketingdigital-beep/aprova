@@ -52,7 +52,7 @@ export default function PartnerNav() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-[#1A1A1A] bg-[#0A0A0A]/96 backdrop-blur-md">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
         {/* Brand */}
         <div className="flex items-center gap-3 flex-shrink-0">
           <Image src="/logo.png" alt="APROVA" width={150} height={48} className="h-12 w-auto object-contain" priority />
@@ -78,23 +78,25 @@ export default function PartnerNav() {
       </div>
 
       {/* Nav scroll */}
-      <div className="flex gap-1 px-4 sm:px-6 pb-0 overflow-x-auto scrollbar-hide border-t border-[#111]">
-        {NAV.map((item) => {
-          const active = isActive(item.href);
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`flex-shrink-0 px-4 py-2.5 text-xs font-bold tracking-wide whitespace-nowrap border-b-2 transition-all ${
-                active
-                  ? 'text-[#FFD700] border-[#FFD700]'
-                  : 'text-[#555] border-transparent hover:text-white hover:border-[#333]'
-              }`}
-            >
-              {item.label}
-            </Link>
-          );
-        })}
+      <div className="border-t border-[#111] overflow-x-auto scrollbar-hide">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex gap-1">
+          {NAV.map((item) => {
+            const active = isActive(item.href);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`flex-shrink-0 px-4 py-2.5 text-xs font-bold tracking-wide whitespace-nowrap border-b-2 transition-all ${
+                  active
+                    ? 'text-[#FFD700] border-[#FFD700]'
+                    : 'text-[#555] border-transparent hover:text-white hover:border-[#333]'
+                }`}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
+        </div>
       </div>
     </header>
   );

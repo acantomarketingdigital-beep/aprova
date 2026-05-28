@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Plus, Tag, Zap, X, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
-import PartnerNav from '../../components/PartnerNav';
+import PartnerShell from '../../components/PartnerShell';
 import {
   MOCK_COUPONS, MOCK_PLAN, MOCK_PARTNER,
   COUPON_BENEFIT_LABELS, type Coupon, type CouponBenefit,
@@ -151,10 +151,8 @@ export default function CuponsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white">
-      <PartnerNav />
-
-      <main className="mx-auto max-w-6xl px-4 sm:px-6 py-8 flex flex-col gap-6">
+    <>
+    <PartnerShell gap="gap-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
           <div>
@@ -250,9 +248,8 @@ export default function CuponsPage() {
             </table>
           </div>
         </div>
-      </main>
-
-      {showForm && <CouponForm onClose={() => setShowForm(false)} />}
-    </div>
+    </PartnerShell>
+    {showForm && <CouponForm onClose={() => setShowForm(false)} />}
+    </>
   );
 }

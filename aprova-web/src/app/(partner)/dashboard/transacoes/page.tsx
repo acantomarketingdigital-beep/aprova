@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import PartnerNav from '../../components/PartnerNav';
+import PartnerShell from '../../components/PartnerShell';
 import { MOCK_TRANSACTIONS, TX_STATUS_CFG, type TxStatus, type Transaction, formatBRL } from '../../components/partner-data';
 
 const TAKE_RATE = 0.12;
@@ -39,10 +39,7 @@ export default function TransacoesPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white">
-      <PartnerNav />
-
-      <main className="mx-auto max-w-7xl px-4 sm:px-6 py-8 flex flex-col gap-6">
+    <PartnerShell gap="gap-6">
         <div>
           <p className="text-[10px] font-black uppercase tracking-[0.25em] text-[#FFD700]">Histórico</p>
           <h1 className="mt-1 text-2xl font-black text-white">Transações</h1>
@@ -134,7 +131,6 @@ export default function TransacoesPage() {
             </p>
           </div>
         </div>
-      </main>
-    </div>
+    </PartnerShell>
   );
 }

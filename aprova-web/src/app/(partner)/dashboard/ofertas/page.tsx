@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Plus, Pencil, Eye, EyeOff, X } from 'lucide-react';
-import PartnerNav from '../../components/PartnerNav';
+import PartnerShell from '../../components/PartnerShell';
 import { MOCK_OFFERS, type Offer, formatBRL } from '../../components/partner-data';
 
 const TAKE_RATE = 0.12;
@@ -134,10 +134,8 @@ export default function OfertasPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white">
-      <PartnerNav />
-
-      <main className="mx-auto max-w-6xl px-4 sm:px-6 py-8 flex flex-col gap-6">
+    <>
+    <PartnerShell gap="gap-6">
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
           <div>
             <p className="text-[10px] font-black uppercase tracking-[0.25em] text-[#FFD700]">Catálogo</p>
@@ -218,9 +216,8 @@ export default function OfertasPage() {
             </table>
           </div>
         </div>
-      </main>
-
-      {showForm && <OfferForm onClose={() => setShowForm(false)} />}
-    </div>
+    </PartnerShell>
+    {showForm && <OfferForm onClose={() => setShowForm(false)} />}
+    </>
   );
 }

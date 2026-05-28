@@ -5,7 +5,7 @@ import Link from 'next/link';
 import {
   TrendingUp, TrendingDown, QrCode, ArrowRight, Zap, BarChart2, ArrowUpRight,
 } from 'lucide-react';
-import PartnerNav from '../components/PartnerNav';
+import PartnerShell from '../components/PartnerShell';
 import {
   MOCK_METRICS, MOCK_FUNNEL, MOCK_TRANSACTIONS, MOCK_PLAN, MOCK_PARTNER,
   TX_STATUS_CFG, type Transaction, formatBRL, relativeTime,
@@ -103,10 +103,7 @@ export default function DashboardPage() {
   const funnelPct = (a: number, b: number) => b > 0 ? `${((a / b) * 100).toFixed(0)}%` : '—';
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white">
-      <PartnerNav />
-
-      <main className="mx-auto max-w-7xl px-4 sm:px-6 py-8 flex flex-col gap-8">
+    <PartnerShell>
 
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -186,8 +183,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Campaign performance or upsell */}
-          <div className="rounded-2xl border bg-[#111] p-6 flex flex-col
-            {!hasPlan ? 'border-[#FFD700]/15' : 'border-[#1A1A1A]'}">
+          <div className={`rounded-2xl border bg-[#111] p-6 flex flex-col ${!hasPlan ? 'border-[#FFD700]/15' : 'border-[#1A1A1A]'}`}>
             <div className="mb-4">
               <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#FFD700]">Marketing</p>
               <h2 className="mt-0.5 text-base font-black text-white">Performance das Campanhas Inteligentes</h2>
@@ -341,7 +337,6 @@ export default function DashboardPage() {
           </div>
         </div>
 
-      </main>
-    </div>
+    </PartnerShell>
   );
 }
