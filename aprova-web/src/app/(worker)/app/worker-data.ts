@@ -2,6 +2,7 @@ export type WorkerOffer = {
   id: string;
   title: string;
   partner: string;
+  partnerWhatsApp: string; // E.164 digits only — used to open WA scheduling CTA
   category: string;
   description: string;
   price: number;
@@ -63,6 +64,7 @@ export const workerOffers: WorkerOffer[] = [
     id: 'combo-ozonio',
     title: 'Combo Ozonio + Recovery',
     partner: 'Clinica Viva Mais',
+    partnerWhatsApp: '5511991230001',
     category: 'Estetica e saude',
     description:
       'Sessao combinada para bem-estar, recuperacao e cuidado estetico com agendamento prioritario.',
@@ -78,6 +80,7 @@ export const workerOffers: WorkerOffer[] = [
     id: 'material-construcao',
     title: 'Material de Construcao',
     partner: 'Obra Forte',
+    partnerWhatsApp: '5511991230002',
     category: 'Casa e reforma',
     description:
       'Credito para compra de cimento, pisos, ferramentas e itens essenciais de reforma.',
@@ -93,6 +96,7 @@ export const workerOffers: WorkerOffer[] = [
     id: 'pacote-odonto',
     title: 'Pacote Odonto Preventivo',
     partner: 'Sorriso Prime',
+    partnerWhatsApp: '5511991230003',
     category: 'Odontologia',
     description:
       'Limpeza, avaliacao e radiografia com pagamento por desconto em folha.',
@@ -108,6 +112,7 @@ export const workerOffers: WorkerOffer[] = [
     id: 'curso-tecnologia',
     title: 'Curso de Tecnologia',
     partner: 'Next Skill Academy',
+    partnerWhatsApp: '5511991230004',
     category: 'Educacao',
     description:
       'Trilha profissionalizante com aulas online, mentoria e certificado final.',
@@ -123,6 +128,7 @@ export const workerOffers: WorkerOffer[] = [
     id: 'bike-eletrica',
     title: 'Bike Eletrica Urbana',
     partner: 'Mobility Store',
+    partnerWhatsApp: '5511991230005',
     category: 'Mobilidade',
     description:
       'Mobilidade diaria com manutencao inicial e retirada no parceiro autorizado.',
