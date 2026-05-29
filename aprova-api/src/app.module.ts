@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { EmployeesModule } from './modules/employees/employees.module';
+import { QrCodesModule } from './modules/qr-codes/qr-codes.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { EmployeesModule } from './modules/employees/employees.module';
     AuthModule,
     UsersModule,
     EmployeesModule,
+    QrCodesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

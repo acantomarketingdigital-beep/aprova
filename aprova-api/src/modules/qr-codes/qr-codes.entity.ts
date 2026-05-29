@@ -12,9 +12,9 @@ import { Partner } from '../partners/partners.entity';
 import { Transaction } from '../transactions/transactions.entity';
 
 export enum QrCodeStatus {
-  ACTIVE = 'active',
-  USED = 'used',
-  EXPIRED = 'expired',
+  ACTIVE    = 'active',
+  USED      = 'used',
+  EXPIRED   = 'expired',
   CANCELLED = 'cancelled',
 }
 
@@ -40,8 +40,33 @@ export class QrCode {
   @Column({ unique: true, length: 255 })
   token: string;
 
+  /**
+   * Total gross value of the transaction in BRL.
+   * Installment amount = amount / installments_count.
+   */
   @Column({ type: 'decimal', precision: 12, scale: 2, nullable: true })
   amount: number | null;
+
+  /**
+   * Number of installments the worker chose when generating the token.
+   * Used to compute the per-installment margin deduction.
+   */
+  @Column({ type: 'smallint', default: 1, name: 'installments_count' })
+  installments_count: number;
+
+  /**
+   * Display name of the procedure/service reserved by the worker.
+   * Stored at token-generation time for display on the partner's validation screen.
+   */
+  @Column({ length: 255, nullable: true, name: 'product_name' })
+  product_name: string | null;
+
+  /**
+   * Patient's full name — stored at generation time so the receptionist can
+   * confirm identity without querying the employee record.
+   */
+  @Column({ length: 255, nullable: true, name: 'patient_name' })
+  patient_name: string | null;
 
   @Column({ type: 'timestamptz', name: 'expires_at' })
   expires_at: Date;
